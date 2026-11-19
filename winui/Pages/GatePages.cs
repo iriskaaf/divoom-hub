@@ -35,9 +35,39 @@ internal static class GatePages
             if (live.Frames.Any(frame => frame is not null) && p.TgMode is ("clock" or "gifs_clock") && !ReferenceEquals(lastFrames, live.Frames))
             {
                 lastFrames = live.Frames;
-                screens.Content = ClockPreview.FromFrames(live.Frames);
+                ShowScreens(ClockPreview.FromFrames(live.Frames));
             }
         });
+
+        void ShowScreens(UIElement frames)
+        {
+            if (p.TgMode != "gifs_clock") { screens.Content = frames; return; }
+            var layer = new Grid { Width = 540, Height = 104 };
+            layer.Children.Add(frames);
+            for (int slot = 0; slot < 4; slot++)
+            {
+                int index = slot;
+                int display = slot < 2 ? slot : slot + 1;
+                bool filled = !string.IsNullOrWhiteSpace(p.TgSideMedia[index]);
+                var edit = Form.Button("", () => LocalFilePage.Open(window, "Картинка для экрана", FacePacks.MediaExtensions,
+                    path => { p.TgSideMedia[index] = path; if (window.Save()) window.Navigate(route); }, () => window.Navigate(route)));
+                edit.Content = new FontIcon { Glyph = filled ? "\uE70F" : "\uE710", FontSize = 16 };
+                edit.Width = edit.Height = 32;
+                edit.Padding = new Thickness(4);
+                edit.HorizontalAlignment = HorizontalAlignment.Left;
+                edit.VerticalAlignment = filled ? VerticalAlignment.Top : VerticalAlignment.Center;
+                edit.Margin = new Thickness(display * 109 + (filled ? 68 : 36), filled ? 4 : 0, 0, 0);
+                Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(edit, $"Изменить экран {display + 1}");
+                var menu = new MenuFlyout();
+                var clear = new MenuFlyoutItem { Text = "Очистить экран", IsEnabled = filled };
+                clear.Click += (_, _) => { p.TgSideMedia[index] = ""; window.Save(); window.Navigate(route); };
+                menu.Items.Add(clear);
+                edit.ContextFlyout = menu;
+                layer.Children.Add(edit);
+            }
+            screens.Content = new Viewbox { Child = layer, StretchDirection = StretchDirection.DownOnly,
+                HorizontalAlignment = HorizontalAlignment.Left };
+        }
 
         var screenSettings = Form.Section("Экраны");
         var screenOptions = Form.Stack();
@@ -59,7 +89,7 @@ internal static class GatePages
         bool IsCustomClock() => p.TgMode is "clock" or "gifs_clock";
         void Render()
         {
-            screens.Content = ClockPreview.Create(window.CurrentFace, p.TgMode, p.Tg24h, p.TgSideMedia);
+            ShowScreens(ClockPreview.Create(window.CurrentFace, p.TgMode, p.Tg24h, p.TgSideMedia));
             centerCover.Visibility = p.TgMode == "clock" ? Visibility.Visible : Visibility.Collapsed;
             faceColor.Visibility = IsCustomClock() && window.CurrentFace.Style != "custom" ? Visibility.Visible : Visibility.Collapsed;
             media.Visibility = p.TgMode == "gifs_clock" ? Visibility.Visible : Visibility.Collapsed;
@@ -112,11 +142,12 @@ internal static class GatePages
 
         void Gallery()
         {
+            if (gallery.ActualWidth > 0) columns = Math.Max(1, (int)(gallery.ActualWidth / (p.TgMode == "gifs_clock" ? 154 : 260)));
             grid.Children.Clear();
             grid.ColumnDefinitions.Clear();
             grid.RowDefinitions.Clear();
             for (int i = 0; i < columns; i++)
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(p.TgMode == "gifs_clock" ? 144 : 250) });
             for (int i = 0; i < (p.TgThemes.Count + columns - 1) / columns; i++)
                 grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
@@ -125,10 +156,10 @@ internal static class GatePages
                 ClockFace face = p.TgThemes[i];
                 bool selected = face.Id == p.SelectedFaceId;
                 var body = Form.Stack(7);
-                var previewContent = new Grid { Height = 46 };
+                var previewContent = new Grid { Height = p.TgMode == "gifs_clock" ? 100 : 46 };
                 var fallback = ClockPreview.Create(face, p.TgMode, sample: true);
                 previewContent.Children.Add(fallback);
-                var image = new Image { Height = 44, HorizontalAlignment = HorizontalAlignment.Left };
+                var image = new Image { Height = p.TgMode == "gifs_clock" ? 96 : 44, HorizontalAlignment = p.TgMode == "gifs_clock" ? HorizontalAlignment.Center : HorizontalAlignment.Left };
                 if (live.Thumbnails is { } thumbnails && thumbnails.Length == p.TgThemes.Count && thumbnails[i] is not null)
                 {
                     image.Source = thumbnails[i];
@@ -158,7 +189,8 @@ internal static class GatePages
                 label.VerticalAlignment = VerticalAlignment.Center;
                 footer.Children.Add(label);
                 var pencil = Form.Button("", () => Edit(window, face));
-                pencil.Content = new SymbolIcon(Symbol.Edit);
+                pencil.Content = new FontIcon { Glyph = "\uE70F", FontSize = 14 };
+                pencil.Width = pencil.Height = 28;
                 pencil.Padding = new Thickness(5);
                 Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(pencil, "Редактировать " + face.Name);
                 Grid.SetColumn(pencil, 1);
@@ -185,8 +217,27 @@ internal static class GatePages
                     window.Navigate(route);
                 }, () => window.Navigate(route), saving: true));
                 if (p.TgThemes.Count > 1) Add("Удалить", () => ConfirmDelete(window, face));
+                select.Content = null;
+                body.Children.Remove(select);
+                body.Children.Insert(0, previewContent);
                 var card = Form.Card(body);
                 card.Padding = new Thickness(10, 8, 10, 0);
+                var hit = Form.Button("", () => { p.SelectedFaceId = face.Id; window.Save(); Render(); Gallery(); });
+                hit.HorizontalAlignment = HorizontalAlignment.Stretch;
+                hit.VerticalAlignment = VerticalAlignment.Stretch;
+                hit.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                hit.Padding = new Thickness(0);
+                hit.Opacity = 0;
+                Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(hit, "Выбрать " + face.Name);
+                var surface = new Grid();
+                card.Child = surface;
+                surface.Children.Add(body);
+                surface.Children.Add(hit);
+                footer.Children.Remove(pencil);
+                pencil.HorizontalAlignment = HorizontalAlignment.Right;
+                pencil.VerticalAlignment = VerticalAlignment.Bottom;
+                pencil.Margin = new Thickness(0, 0, 0, 5);
+                surface.Children.Add(pencil);
                 card.ContextFlyout = menu;
                 Grid.SetColumn(card, i % columns);
                 Grid.SetRow(card, i / columns);
@@ -196,7 +247,7 @@ internal static class GatePages
         }
         gallery.SizeChanged += (_, e) =>
         {
-            int count = Math.Clamp((int)(e.NewSize.Width / 170), 1, 3);
+            int count = Math.Max(1, (int)(e.NewSize.Width / (p.TgMode == "gifs_clock" ? 154 : 260)));
             if (count == columns) return;
             columns = count;
             Gallery();
@@ -215,22 +266,6 @@ internal static class GatePages
         { p.TgMode = value; window.Save(); Render(); Gallery(); if (value == "device") _ = window.LoadBuiltinsAsync(); }));
         screenSettings.Children.Add(screenOptions);
         screenSettings.Children.Add(Form.Slider("Яркость экранов", p.TgBrightness, 0, 100, value => { p.TgBrightness = (int)value; window.SaveSoon(); }));
-        for (int slot = 0; slot < 4; slot++)
-        {
-            int index = slot;
-            var row = Form.Stack(4);
-            var name = Form.Text(MediaLabel(p.TgSideMedia[index]));
-            row.Children.Add(Form.Text($"Экран {(index < 2 ? index + 1 : index + 2)}", "BodyStrongTextBlockStyle"));
-            row.Children.Add(name);
-            var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
-            buttons.Children.Add(Form.Button("Выбрать файл", () => LocalFilePage.Open(window, "Картинка для экрана", FacePacks.MediaExtensions, path =>
-            { p.TgSideMedia[index] = path; if (window.Save()) window.Navigate(route); }, () => window.Navigate(route))));
-            buttons.Children.Add(Form.Button("Очистить", () =>
-            { p.TgSideMedia[index] = ""; name.Text = MediaLabel(""); window.Save(); Render(); }));
-            row.Children.Add(buttons);
-            media.Children.Add(row);
-        }
-        screenSettings.Children.Add(media);
         page.Add(Form.Card(screenSettings));
         page.Add(musicCard);
 
@@ -285,10 +320,12 @@ internal static class GatePages
     private static Expander Expander(string title, UIElement content) => new() { Header = title, Content = content,
         HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch };
 
-    internal static Border ColorEditor(string title, string hex, Action<string> change, string? detail = null)
+    internal static Button ColorEditor(string title, string hex, Action<string> change, string? detail = null)
     {
         var swatch = new Border { Width = 66, Height = 24, Background = ClockPreview.Brush(hex), CornerRadius = new CornerRadius(4) };
-        var button = new Button { Content = swatch };
+        var row = Form.Row(title, detail ?? "", swatch);
+        row.BorderThickness = new Thickness(0);
+        var button = new Button { Content = row, Padding = new Thickness(0), HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch };
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(button, title);
         ToolTipService.SetToolTip(button, "Выбрать цвет");
         button.Click += async (_, _) =>
@@ -312,7 +349,7 @@ internal static class GatePages
             }
             finally { button.IsEnabled = true; }
         };
-        return Form.Row(title, detail ?? "", button);
+        return button;
     }
 
     private static void Move(MainWindow window, ClockFace face, int offset, Action update)

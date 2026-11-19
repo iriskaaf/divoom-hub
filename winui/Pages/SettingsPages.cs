@@ -44,7 +44,7 @@ internal static class SettingsPages
         Button MediaButton(Symbol symbol, string name, string command)
         {
             var button = Form.Button("", () => _ = window.RunCommand("media_" + command, page));
-            button.Content = new SymbolIcon(symbol);
+            button.Content = new FontIcon { FontFamily = new Microsoft.UI.Xaml.Media.FontFamily("Segoe Fluent Icons"), Glyph = symbol == Symbol.Previous ? "\uE892" : symbol == Symbol.Next ? "\uE893" : "\uE768", FontSize = 16 };
             button.Width = button.Height = 40;
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(button, name);
             ToolTipService.SetToolTip(button, name);
@@ -73,7 +73,7 @@ internal static class SettingsPages
             controls.Visibility = p.TrackSource == "media" ? Visibility.Visible : Visibility.Collapsed;
             bool canControl = window.Live.Ready && window.Live.Track.Length > 0 && p.ShowArtwork;
             previous.IsEnabled = play.IsEnabled = next.IsEnabled = canControl;
-            ((SymbolIcon)play.Content).Symbol = window.Live.Playing ? Symbol.Pause : Symbol.Play;
+            ((FontIcon)play.Content).Glyph = window.Live.Playing ? "\uE769" : "\uE768";
             account.Visibility = p.TrackSource == "api" && !window.Live.LoggedIn ? Visibility.Visible : Visibility.Collapsed;
         });
         foreach (var device in p.Devices)
