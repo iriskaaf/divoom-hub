@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "divoom-hub-winui3 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "divoom-hub-winui3 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
