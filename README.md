@@ -1,8 +1,8 @@
 <div align="center">
   <img src="winui/Assets/logo.png" width="96" height="96" alt="Divoom Hub">
   <h1>Divoom Hub</h1>
-  <p><strong>Ваша музыка — на экранах Divoom.</strong></p>
-  <p>Обложки, циферблаты и подсветка для Times Gate и Ditoo Pro.<br>Одно приложение на Windows, несколько устройств, ваши настройки.</p>
+  <p><strong>Your music, on your Divoom displays.</strong></p>
+  <p>Album artwork, clock faces, and lighting for Times Gate and Ditoo Pro.<br>One Windows app. Multiple devices. Your setup.</p>
 
   <p>
     <img src="https://img.shields.io/badge/Windows-10%20%2F%2011-0078D4?style=flat-square" alt="Windows 10 / 11">
@@ -12,89 +12,93 @@
   </p>
 
   <p>
-    <a href="#версии-и-скачивание"><strong>Скачать</strong></a> ·
-    <a href="#подключение">Подключение</a> ·
-    <a href="#сборка-из-исходников">Сборка</a> ·
-    <a href="docs/architecture.md">Как это работает</a> ·
-    <a href="https://github.com/iriskaaf/divoom-hub/issues">Сообщить об ошибке</a>
+    <a href="#versions-and-downloads"><strong>Download</strong></a> ·
+    <a href="#getting-connected">Setup</a> ·
+    <a href="#building-from-source">Build</a> ·
+    <a href="docs/architecture.md">Architecture</a> ·
+    <a href="https://github.com/iriskaaf/divoom-hub/issues">Report a bug</a>
   </p>
 </div>
 
 ---
 
-## Два устройства. Разные возможности.
+## Supported devices
+
+Divoom Hub currently supports **two device models: Times Gate and Ditoo Pro**. Support for more Divoom devices is planned, and the compatibility list will grow over time.
 
 <table>
   <tr>
     <td align="center" width="50%">
       <img src="winui/Assets/times-gate.png" width="300" alt="Divoom Times Gate"><br>
       <strong>Times Gate</strong><br>
-      <sub>Wi-Fi · пять экранов 128 × 128</sub>
+      <sub>Wi-Fi · five 128 × 128 displays</sub>
     </td>
     <td align="center" width="50%">
       <img src="winui/Assets/ditoo.png" width="160" alt="Divoom Ditoo Pro"><br>
       <strong>Ditoo Pro</strong><br>
-      <sub>Bluetooth · пиксельный экран 16 × 16</sub>
+      <sub>Bluetooth · 16 × 16 pixel display</sub>
     </td>
   </tr>
   <tr>
-    <td>Циферблаты, обложка на среднем экране, собственные изображения и подсветка под музыку.</td>
-    <td>Пиксельные обложки треков, настройка обработки изображения, яркости и режима ожидания.</td>
+    <td>Custom clock faces, album artwork on the center display, your own images, and lighting that follows the music.</td>
+    <td>Pixel-art album covers, image adjustments, brightness controls, and idle display modes.</td>
   </tr>
 </table>
 
-## Возможности
+The WinUI version supports multiple units of each model, with separate names and settings for every device.
 
-- **Музыка из Windows.** Трек и обложка из медиасессии — без входа в аккаунт. Можно ограничить источник Spotify или использовать другие плееры.
-- **Spotify Web API.** Получение текущего трека, когда музыка играет на другом устройстве.
-- **Свои циферблаты.** Встроенные стили, настройка цветов, изменение порядка и импорт/экспорт паков.
-- **Цвета обложки.** Циферблат и подсветка Times Gate могут подстраиваться под музыку; на паузе возвращаются ручные настройки.
-- **Несколько устройств.** Добавление, переименование и отдельные настройки для нескольких Times Gate и Ditoo Pro в WinUI-версии.
-- **Работа из трея.** Быстрые действия с музыкой и циферблатами, светлая и тёмная темы интерфейса.
+## Features
 
-## Версии и скачивание
+- **Music from Windows.** Read the current track and artwork from a Windows media session without signing in. Use Spotify only or allow other compatible players.
+- **Spotify Web API.** Follow playback when your music is playing on another device.
+- **Custom clock faces.** Choose built-in styles, adjust colors, reorder faces, and import or export face packs.
+- **Artwork-based colors.** Let Times Gate clock faces and lighting follow the album palette, with manual colors restored when playback pauses.
+- **Multiple devices.** Add, rename, and configure several Times Gate and Ditoo Pro units in the WinUI version.
+- **Tray controls.** Access music and clock-face actions from the system tray, with light and dark interface themes.
 
-| Версия | Для чего | Где взять |
+## Versions and downloads
+
+| Version | Purpose | Get it |
 | :--- | :--- | :--- |
-| **WinUI 3** | Актуальная разработка: C#-интерфейс и Python-бэкенд | [Исходники](winui/) · [Инструкция сборки](#сборка-из-исходников) |
-| **Python Legacy · 1.8.1** | Прежнее самостоятельное приложение на PySide6 | [Скачать ZIP для Windows](https://github.com/iriskaaf/divoom-hub/releases/download/legacy-v1.8.1/DivoomHub-1.8.1-legacy-windows.zip) · [Релиз](https://github.com/iriskaaf/divoom-hub/releases/tag/legacy-v1.8.1) |
-| **WinUI Archive · 18.11.2026** | Сохранившаяся промежуточная сборка | [Архивный релиз](https://github.com/iriskaaf/divoom-hub/releases/tag/archive-winui-2026-11-18) |
+| **WinUI 3** | Active development: C# interface with a Python backend | [Source](winui/) · [Build instructions](#building-from-source) |
+| **Python Legacy · 1.8.1** | Previous standalone PySide6 application | [Download Windows ZIP](https://github.com/iriskaaf/divoom-hub/releases/download/legacy-v1.8.1/DivoomHub-1.8.1-legacy-windows.zip) · [Release notes](https://github.com/iriskaaf/divoom-hub/releases/tag/legacy-v1.8.1) |
+| **WinUI Archive · Nov 18, 2026** | Preserved intermediate build | [Archived release](https://github.com/iriskaaf/divoom-hub/releases/tag/archive-winui-2026-11-18) |
 
 > [!NOTE]
-> Legacy ZIP содержит готовое приложение: распакуйте **всю папку** и запустите `DivoomHub.exe`. Архивная WinUI-сборка требует отдельного Python-окружения и не заменяет актуальную версию из `main`.
+> The Legacy ZIP includes a ready-to-run application. Extract the **entire folder** and launch `DivoomHub.exe`. The archived WinUI build requires a separate Python environment and is not a replacement for the current version in `main`.
 
-## Подключение
+## Getting connected
 
 ### Times Gate
 
-1. Подключите часы к Wi-Fi через мобильное приложение Divoom.
-2. Подключите компьютер к той же локальной сети.
-3. Добавьте Times Gate в Divoom Hub и укажите IP-адрес и LocalToken из настроек устройства в приложении Divoom.
+1. Connect the device to Wi-Fi using the Divoom mobile app.
+2. Connect your PC to the same local network.
+3. Add Times Gate in Divoom Hub and enter its IP address and LocalToken from the device settings in the Divoom app.
 
 ### Ditoo Pro
 
-1. Откройте **Параметры Windows → Bluetooth и устройства**.
-2. Выполните сопряжение с **DitooPro-Audio**.
-3. Добавьте Ditoo Pro в Divoom Hub. Если соединение занято приложением Divoom на телефоне, отключите его Bluetooth-соединение с устройством.
+1. Open **Windows Settings → Bluetooth & devices**.
+2. Pair with **DitooPro-Audio**.
+3. Add Ditoo Pro in Divoom Hub. If the Divoom app on your phone is occupying the connection, disconnect the phone from the device over Bluetooth.
 
-### Источник музыки
+### Music source
 
-| Источник | Когда выбирать | Настройка |
+| Source | When to use it | Setup |
 | :--- | :--- | :--- |
-| **Медиасессия Windows** | Музыка играет на этом компьютере | Без авторизации; плеер должен передавать данные в Windows SMTC |
-| **Spotify Web API** | Музыка играет на другом устройстве | Client ID своего приложения Spotify и вход в аккаунт |
+| **Windows media session** | Music is playing on this PC | No sign-in; the player must expose playback through Windows SMTC |
+| **Spotify Web API** | Music is playing on another device | Your Spotify application's Client ID and account authorization |
 
-Для Spotify Web API добавьте в настройках приложения Spotify redirect URI:
+For Spotify Web API, register this redirect URI in your Spotify application settings:
 
 ```text
 http://127.0.0.1:8888/callback
 ```
 
-Закрытие окна сворачивает Divoom Hub в трей. Чтобы завершить программу, выберите **«Выход»** в меню трея. Times Gate возвращается к встроенному циферблату, если эта настройка включена.
+Closing the window minimizes Divoom Hub to the tray. Use the tray's **Exit** command to quit. Times Gate returns to its built-in clock face on exit when that setting is enabled.
 
-## Сборка из исходников
+## Building from source
 
-Нужны **Windows x64**, **.NET 8 SDK**, **Python 3.13**, **PowerShell 7** и инструменты разработки **WinUI/XAML**. Используется Windows App SDK 2.6.5.
+Requires **Windows x64**, **.NET 8 SDK**, **Python 3.13**, **PowerShell 7**, and **WinUI/XAML development tools**. The project uses Windows App SDK 2.6.5.
 
 ```powershell
 git clone https://github.com/iriskaaf/divoom-hub.git
@@ -105,61 +109,61 @@ legacy/.venv/Scripts/python -m pip install -r legacy/requirements.txt pyinstalle
 pwsh -File winui/Build.ps1
 ```
 
-| Сборка | Исполняемый файл |
+| Build | Executable |
 | :--- | :--- |
-| Основная | `winui/artifacts/DivoomHub.WinUI/divoom-hub-winui3.exe` |
+| Main | `winui/artifacts/DivoomHub.WinUI/divoom-hub-winui3.exe` |
 | TEST | `winui/artifacts/test/divoom-hub-winui3_TEST.exe` |
 
-Скрипт упаковывает Python, .NET и Windows App SDK. Для переноса готового приложения копируйте всю папку сборки.
+The build script bundles Python, .NET, and Windows App SDK. Copy the entire output folder when moving the application to another location.
 
 <details>
-<summary><strong>Разработка в Visual Studio</strong></summary>
+<summary><strong>Developing in Visual Studio</strong></summary>
 
-Откройте `winui/divoom-hub-winui3.slnx`, выберите **x64 → Unpackaged** и запустите проект. Python-код и окружение берутся из соседней папки `legacy`.
+Open `winui/divoom-hub-winui3.slnx`, select **x64 → Unpackaged**, and run the project. Python source and its virtual environment are loaded from the adjacent `legacy` folder.
 
-Если Python-проект находится отдельно, задайте переменную `DIVOOM_HUB_PYTHON_ROOT` или передайте путь через `Build.ps1 -PythonRoot`.
+For a separate Python checkout, set `DIVOOM_HUB_PYTHON_ROOT` or pass its path through `Build.ps1 -PythonRoot`.
 
 </details>
 
 <details>
-<summary><strong>Профили и тестовая версия</strong></summary>
+<summary><strong>Profiles and the TEST edition</strong></summary>
 
-| Версия | Папка данных |
+| Edition | Data folder |
 | :--- | :--- |
 | WinUI | `%LOCALAPPDATA%/DivoomHub.WinUI` |
 | WinUI TEST | `%LOCALAPPDATA%/DivoomHub.WinUI_TEST` |
 | Python Legacy | `%LOCALAPPDATA%/DivoomHub` |
 
-WinUI хранит LocalToken и авторизацию Spotify в Windows Credential Manager.
+WinUI stores LocalToken and Spotify credentials in Windows Credential Manager.
 
-TEST при каждом запуске показывает приветствие и читает настройки Python-версии, если они есть. Исходный Python-профиль не перезаписывается. Перед подключением реальных устройств из TEST завершите другую версию через трей.
+TEST shows the welcome screen on every launch and imports settings from the Python version when available. It does not overwrite the original Python profile. Exit other editions through the tray before connecting physical devices from TEST.
 
 </details>
 
-## Под капотом
+## Under the hood
 
 ```text
 divoom-hub/
 ├── winui/                    C# / WinUI 3
-│   ├── Pages/                Главная, устройства, настройки и мастер
-│   ├── Controls/             Общие элементы интерфейса и трей
-│   ├── Models/               Профили, устройства и паки циферблатов
-│   ├── Services/             IPC, учётные данные и автозапуск
-│   └── Backend/              Python-процесс и проверки обмена данными
-├── legacy/                   Самостоятельная Python-версия
-│   ├── core/                 Музыка, обложки и настройки
-│   ├── bluetooth/            Подключение и протокол Ditoo
-│   ├── timesgate/            HTTP, циферблаты и подсветка Times Gate
-│   ├── gui/                  Прежний интерфейс PySide6
-│   └── tests/                Проверки Python
-└── docs/                     Описание архитектуры
+│   ├── Pages/                Home, devices, settings, and setup
+│   ├── Controls/             Shared interface controls and tray
+│   ├── Models/               Profiles, devices, and clock-face packs
+│   ├── Services/             IPC, credentials, and startup
+│   └── Backend/              Python worker and integration checks
+├── legacy/                   Standalone Python application
+│   ├── core/                 Music, artwork, and settings
+│   ├── bluetooth/            Ditoo connection and protocol
+│   ├── timesgate/            Times Gate HTTP, rendering, and lighting
+│   ├── gui/                  Previous PySide6 interface
+│   └── tests/                Python tests
+└── docs/                     Architecture documentation
 ```
 
-WinUI общается с Python через строки JSON в стандартных потоках дочернего процесса. Один музыкальный движок обслуживает несколько независимых обработчиков устройств. Модули `core`, `bluetooth` и `timesgate` используются обеими версиями; PySide6 в WinUI-бэкенд не загружается.
+WinUI communicates with Python through JSON lines over the child process's standard streams. One music engine feeds independent device workers. Both editions share the `core`, `bluetooth`, and `timesgate` modules; the WinUI backend does not load PySide6.
 
-**[Разбор архитектуры и пути «медиасессия → обложка → средний экран» →](docs/architecture.md)**
+**[Explore the architecture and the media session → artwork → center display flow →](docs/architecture.md)** *(Currently documented in Russian.)*
 
-## Проверки
+## Tests
 
 ```powershell
 Push-Location legacy
@@ -170,17 +174,29 @@ legacy/.venv/Scripts/python winui/Backend/smoke_test.py winui/artifacts/DivoomHu
 legacy/.venv/Scripts/python winui/Backend/smoke_cover_flow.py (Resolve-Path legacy)
 ```
 
-WinUI также поддерживает `--ui-smoke-test <абсолютный-путь-к-отчёту>`: проверяются страницы в двух темах, мастер, выбор цвета, меню, паки циферблатов и IPC с Python. Сетевые проверки используют локальный имитатор Times Gate.
+WinUI also supports `--ui-smoke-test <absolute-report-path>`. It checks pages in both themes, setup, color selection, menus, clock-face packs, and Python IPC. Network tests use a local Times Gate simulator.
 
-Цветопередача реальных светодиодов и одновременные Bluetooth-соединения проверяются отдельно на устройствах.
+Physical LED color reproduction and concurrent Bluetooth connections require separate testing on real devices.
 
-## Обратная связь
+## Feedback
 
-Нашли ошибку? [Создайте issue](https://github.com/iriskaaf/divoom-hub/issues) и укажите версию приложения, модель устройства, версию Windows и шаги воспроизведения. Для проблем интерфейса приложите скриншот. LocalToken и данные авторизации публиковать не нужно.
+Found a bug? [Open an issue](https://github.com/iriskaaf/divoom-hub/issues) with your app version, device model, Windows version, and steps to reproduce it. Include a screenshot for interface problems. Keep LocalToken and authorization credentials out of public reports.
+
+## Acknowledgments
+
+Thanks to the people maintaining the open-source projects that Divoom Hub builds on:
+
+- **[WinUI and Windows App SDK](https://github.com/microsoft/WindowsAppSDK)** and **[.NET](https://github.com/dotnet/runtime)** for the Windows interface and runtime.
+- **[Python](https://www.python.org/)** and **[PyWinRT](https://github.com/pywinrt/pywinrt)** for the backend and access to Windows media sessions.
+- **[Qt / PySide6](https://www.qt.io/qt-for-python)** and **[Fluent Widgets](https://github.com/zhiyiYo/PyQt-Fluent-Widgets)** for the legacy interface.
+- **[Pillow](https://github.com/python-pillow/Pillow)**, **[Requests](https://github.com/psf/requests)**, **[keyring](https://github.com/jaraco/keyring)**, **[PyInstaller](https://pyinstaller.org/)**, and **[pytest](https://github.com/pytest-dev/pytest)** for image processing, networking, credential storage, packaging, and testing.
+- The designers of the bundled open fonts, and everyone who shares device observations, reports bugs, or helps test the app on real hardware.
+
+Component licenses and artwork credits are listed in [Third-party notices](THIRD_PARTY_NOTICES.md).
 
 ---
 
 <div align="center">
-  <sub>Независимый проект. Не является официальным приложением Divoom или Spotify.</sub><br>
-  <sub><a href="THIRD_PARTY_NOTICES.md">Сторонние компоненты, шрифты и лицензии</a></sub>
+  <sub>An independent project. Not an official Divoom or Spotify application.</sub><br>
+  <sub><a href="THIRD_PARTY_NOTICES.md">Third-party components, fonts, and licenses</a></sub>
 </div>
