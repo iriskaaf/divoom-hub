@@ -25,4 +25,3 @@ py -3.13 -m venv .venv
 Профиль: `%LOCALAPPDATA%/DivoomHub`. Для отдельной тестовой копии используйте `tools/package_test.py` после сборки. Адрес и токен для автоподстановки можно задать переменными окружения `DIVOOM_TEST_GATE_IP` и `DIVOOM_TEST_GATE_TOKEN`; они применяются только к TEST.
 
 Диагностические команды: `app.py --scan`, `app.py --probe`, `app.py --test-display`. Последние две работают с реальным устройством.
-

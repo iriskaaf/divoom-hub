@@ -27,4 +27,3 @@ Archivo Black, Instrument Serif, Outfit, Press Start 2P, Space Mono, Unbounded �
 Знак Spotify взят из [официального набора](https://developer.spotify.com/documentation/design#using-our-logo). Для совместимости с WinUI цвет записан непосредственно в SVG path; геометрия сохранена. Spotify — товарный знак Spotify AB.
 
 Иллюстрация медиасессии и логотип Divoom Hub находятся в `winui/Assets`. Дополнительные сведения о графике legacy: [legacy/resources/illustrations/README.md](legacy/resources/illustrations/README.md).
-

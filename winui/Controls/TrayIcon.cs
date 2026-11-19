@@ -153,4 +153,3 @@ internal sealed class TrayMenuHost : Window
     [System.Runtime.InteropServices.DllImport("user32.dll")]
     private static extern uint GetDpiForWindow(IntPtr hwnd);
 }
-

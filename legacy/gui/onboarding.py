@@ -15,7 +15,7 @@ class SetupPage(QWidget):
         self.adding = adding
         self._existing_ditoo = bool(window.settings.ditoo_enabled)
         self._existing_tg = bool(window.settings.timesgate_enabled)
-        self._device_snapshot = {name: getattr(window.settings,name) for name in ("ditoo_enabled","ditoo_address","ditoo_port","timesgate_enabled","tg_ip","tg_token","tg_mac","tg_hardware")} 
+        self._device_snapshot = {name: getattr(window.settings,name) for name in ("ditoo_enabled","ditoo_address","ditoo_port","timesgate_enabled","tg_ip","tg_token","tg_mac","tg_hardware")}
         self._connections = []
         self._confirmed = {}
         for key, payload in getattr(window, "_last_events", {}).items():
