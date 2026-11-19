@@ -60,11 +60,13 @@ The WinUI version supports multiple units of each model, with separate names and
 
 | Version | Purpose | Get it |
 | :--- | :--- | :--- |
-| **WinUI 3** | Active development: C# interface with a Python backend | [Source](winui/) · [Build instructions](#building-from-source) |
+| **WinUI 3** | Current application: C# interface with a bundled Python backend | [Download Windows x64](https://github.com/iriskaaf/divoom-hub/releases/download/winui-2026.11.19/DivoomHub-WinUI-windows-x64.zip) · [Latest release](https://github.com/iriskaaf/divoom-hub/releases/latest) |
 | **Python Legacy · 1.8.1** | Previous standalone PySide6 application | [Download Windows ZIP](https://github.com/iriskaaf/divoom-hub/releases/download/legacy-v1.8.1/DivoomHub-1.8.1-legacy-windows.zip) · [Release notes](https://github.com/iriskaaf/divoom-hub/releases/tag/legacy-v1.8.1) |
 | **WinUI Archive · Nov 18, 2026** | Preserved intermediate build | [Archived release](https://github.com/iriskaaf/divoom-hub/releases/tag/archive-winui-2026-11-18) |
 
 > [!NOTE]
+> The current WinUI release includes its runtimes and Python backend. Extract the entire folder and launch `divoom-hub-winui3.exe`. A separate TEST archive is available on the release page.
+>
 > The Legacy ZIP includes a ready-to-run application. Extract the **entire folder** and launch `DivoomHub.exe`. The archived WinUI build requires a separate Python environment and is not a replacement for the current version in `main`.
 
 ## Getting connected
